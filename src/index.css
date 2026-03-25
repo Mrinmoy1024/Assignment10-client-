@@ -1,2 +1,10 @@
 @import "tailwindcss";
 @plugin "daisyui";
+
+* {
+    background: linear-gradient(135deg, #281b46, #1d1a58);
+}
+
+.navbar {
+    background: #371a3d;
+}
