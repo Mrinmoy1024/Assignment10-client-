@@ -1,6 +1,6 @@
 import React from "react";
 import { Link, NavLink } from "react-router";
-
+import logo from "../assets/logo.png";
 const Navbar = () => {
   return (
     <div>
@@ -26,7 +26,7 @@ const Navbar = () => {
             </div>
             <ul
               tabIndex="-1"
-              className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
+              className=" menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
             >
               <li>
                 <NavLink to="/my-habits">My Habits</NavLink>
@@ -37,8 +37,9 @@ const Navbar = () => {
               </li>
             </ul>
           </div>
-          <NavLink to="/" className="btn text-xl">
-            HabbitTracker
+          <NavLink to="/">
+            {" "}
+            <img src={logo} className="w-25 rounded" />
           </NavLink>
         </div>
         <div className="navbar-center hidden lg:flex">
