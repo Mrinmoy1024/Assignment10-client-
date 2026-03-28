@@ -30,7 +30,7 @@ const reasons = [
 
 const WhyBuildHabits = () => {
   return (
-    <section className="py-20 bg-gray-100 lg:pl-60">
+    <section className="w-full flex flex-col items-center px-4 py-16 ">
       <div className="container mx-auto px-6 text-center">
         <motion.h2
           className="text-4xl md:text-5xl font-bold mb-6"
@@ -42,7 +42,7 @@ const WhyBuildHabits = () => {
           Why Build Habits?
         </motion.h2>
         <div className="lg:pl-100">
-          <p className="text-gray-600 mb-12 max-w-2xl ">
+          <p className="text-gray-600 mb-12 max-w-2xl pt-10 pb-10">
             Building good habits transforms your life. Here are some reasons why
             developing habits can make a huge difference in your personal and
             professional growth.
