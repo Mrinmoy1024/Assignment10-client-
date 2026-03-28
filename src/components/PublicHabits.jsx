@@ -11,28 +11,27 @@ const PublicHabits = () => {
   }, []);
   return (
     <div>
-      
-        <div className="grid md:grid-cols-4 gap-6 p-6">
-          {habits.map((habit) => (
-            <div
-              key={habit._id}
-              className="border p-4 rounded shadow flex flex-col"
-            >
-              <img
-                src={habit.Image}
-                className="w-full h-40 object-cover rounded"
-              />
+      <div className="grid md:grid-cols-4 gap-6 p-6">
+        {habits.map((habit) => (
+          <div
+            key={habit._id}
+            className="border p-4 rounded shadow flex flex-col"
+          >
+            <img
+              src={habit.Image}
+              className="w-full h-40 object-cover rounded"
+            />
 
-              <h2 className="text-xl font-bold mt-2">{habit.Title}</h2>
-              <p className="text-gray-600">{habit.Description}</p>
-              <p className="text-sm mt-1">Category: {habit.Category}</p>
+            <h2 className="text-xl font-bold mt-2">{habit.Title}</h2>
+            <p className="text-gray-600">{habit.Description}</p>
+            <p className="text-sm mt-1">Category: {habit.Category}</p>
 
-              <button className="btn mt-auto self-end">Add to my habits</button>
-            </div>
-          ))}
-        </div>
+            <button className="btn mt-auto self-end">Add to my habits</button>
+            <button className="btn mt-auto self-end">Details</button>
+          </div>
+        ))}
       </div>
-    
+    </div>
   );
 };
 

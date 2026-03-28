@@ -69,6 +69,9 @@ const FeaturedHabits = () => {
                   Add to my habits
                 </button>
               </Link>
+              <Link to="/">
+                <button className="btn btn-primary mt-4">Details</button>
+              </Link>
             </div>
           </motion.div>
         ))}
