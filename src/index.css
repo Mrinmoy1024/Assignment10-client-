@@ -9,3 +9,7 @@
 .navbar {
     background: #371a3d;
 }
+
+.btn:hover {
+    color: indigo;
+}

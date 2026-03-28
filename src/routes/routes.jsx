@@ -3,6 +3,7 @@ import { createBrowserRouter } from "react-router";
 import MainLayout from "../layout/MainLayout";
 import Home from "../pages/Home";
 import PublicHabits from "../components/PublicHabits";
+import Login from "../components/Login";
 
 export const router = createBrowserRouter([
   {
@@ -14,10 +15,13 @@ export const router = createBrowserRouter([
         element: <Home></Home>,
       },
       {
-        path:"/public-habits",
-        element:<PublicHabits></PublicHabits>
-      }
-     
+        path: "/public-habits",
+        element: <PublicHabits></PublicHabits>,
+      },
+      {
+        path: "/login",
+        element: <Login></Login>,
+      },
     ],
   },
 ]);
