@@ -33,10 +33,10 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
-      <div className="card w-full max-w-sm bg-white shadow-2xl border border-gray-200 rounded-2xl p-6">
+    <div className="min-h-screen flex items-center justify-center bg-[#281b46] px-4">
+      <div className="card w-full max-w-sm bg-[#382070] shadow-2xl rounded-2xl p-6">
         <h1 className="text-3xl font-bold text-center mb-6">Login</h1>
-        <form onSubmit={handleLogIn} className="space-y-4">
+        <form onSubmit={handleLogIn} className="space-y-4 ">
           <div className="flex flex-col">
             <label className="mb-1 font-medium">Email</label>
             <input
@@ -83,8 +83,8 @@ const Login = () => {
         <p className="text-center text-sm mt-4">
           New to our website?{" "}
           <Link
-            to="/auth/register"
-            className="text-blue-500 hover:text-blue-700"
+            to="/register"
+            className="text-indigo-500 hover:text-indigo-700"
           >
             Register
           </Link>

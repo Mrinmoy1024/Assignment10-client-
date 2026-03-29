@@ -4,6 +4,7 @@ import MainLayout from "../layout/MainLayout";
 import Home from "../pages/Home";
 import PublicHabits from "../components/PublicHabits";
 import Login from "../components/Login";
+import Register from "../components/Register";
 
 export const router = createBrowserRouter([
   {
@@ -21,6 +22,10 @@ export const router = createBrowserRouter([
       {
         path: "/login",
         element: <Login></Login>,
+      },
+      {
+        path: "/register",
+        element: <Register></Register>,
       },
     ],
   },

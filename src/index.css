@@ -2,8 +2,14 @@
 @plugin "daisyui";
 
 * {
-    background: #281b46;
     margin: 0;
+}
+
+html,
+body,
+#root {
+    background-color: #281b46;
+    min-height: 100%;
 }
 
 .navbar {

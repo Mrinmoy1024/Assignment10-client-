@@ -54,7 +54,7 @@ const WhyBuildHabits = () => {
             {reasons.map((reason, index) => (
               <motion.div
                 key={index}
-                className="bg-white p-6 rounded-2xl shadow-lg flex flex-col items-center text-center flex-1 min-w-[250px] max-w-[280px]"
+                className="bg-indigo-800 p-6 rounded-2xl shadow-lg flex flex-col items-center text-center flex-1 min-w-[250px] max-w-[280px]"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}

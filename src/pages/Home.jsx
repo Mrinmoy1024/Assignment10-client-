@@ -6,6 +6,7 @@ import WhyBuildHabits from "../components/WhyBuildHabits";
 import DailyHabitTips from "../components/DailyHabitTIps";
 
 const Home = () => {
+
   return (
     <div>
       <Hero></Hero>

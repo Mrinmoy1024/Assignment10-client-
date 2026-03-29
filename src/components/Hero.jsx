@@ -12,7 +12,7 @@ const Hero = () => {
   const [habits, setHabits] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:3000/habits")
+    fetch("https://habit-tracker-server-taupe.vercel.app/habits")
       .then((res) => res.json())
       .then((data) => setHabits(data))
       .catch((err) => console.error(err));
@@ -21,20 +21,32 @@ const Hero = () => {
   return (
     <div className="w-full h-[80vh] relative">
       <Swiper
+        key={habits.length ? `hero-${habits.length}` : "hero-loading"}
         modules={[Autoplay, Pagination, Navigation]}
-        autoplay={{ delay: 3000, disableOnInteraction: false }}
+        autoplay={
+          habits.length > 0
+            ? { delay: 3000, disableOnInteraction: false }
+            : false
+        }
         pagination={{ clickable: true }}
         navigation
-        loop
-        className="h-full"
+        loop={habits.length > 1}
+        className="h-full w-full"
       >
         {habits.map((habit) => (
-          <SwiperSlide key={habit._id} className="relative h-full w-full">
-            <img src={habit.Image} className="w-full h-full object-cover" />
+          <SwiperSlide
+            key={habit._id}
+            className="relative isolate h-full w-full"
+          >
+            <img
+              src={habit.Image}
+              alt={habit.Title}
+              className="absolute inset-0 z-0 h-full w-full object-cover"
+            />
 
-            <div className="absolute inset-0 bg-black/50"></div>
+            <div className="absolute inset-0 z-10 bg-black/50" aria-hidden />
 
-            <div className="absolute inset-0 flex items-center justify-center text-center px-4">
+            <div className="absolute inset-0 z-20 flex items-center justify-center px-4 text-center">
               <motion.div
                 initial={{ opacity: 0, y: 40 }}
                 animate={{ opacity: 1, y: 0 }}

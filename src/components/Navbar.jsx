@@ -1,7 +1,24 @@
-import React from "react";
-import { Link, NavLink } from "react-router";
+import React, { useContext, useState } from "react";
+import { Link, NavLink, useNavigate } from "react-router";
 import logo from "../assets/logo.png";
+import { AuthContext } from "../context/AuthContext";
+import { toast } from "react-toastify";
 const Navbar = () => {
+  const { user, signOutUser } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+
+  const handleLogout = () => {
+    signOutUser()
+      .then(() => {
+        setDropdownOpen(false);
+        toast.success("Logged out successfully");
+        navigate("/");
+      })
+      .catch((err) => {
+        toast.error("Logout failed: " + err.message);
+      });
+  };
   return (
     <div>
       <div className="navbar bg-base-100 shadow-sm ">
@@ -63,13 +80,47 @@ const Navbar = () => {
             </li>
           </ul>
         </div>
-        <div className="navbar-end gap-5">
-          <Link to="/login" className="btn">
-            Login
-          </Link>
-          <Link to="/signup" className="btn">
-            Sign up
-          </Link>
+
+        <div className="navbar-end flex items-center gap-3">
+          {user ? (
+            <div className="relative">
+              <img
+                src={user.photoURL}
+                alt={user.displayName || "User"}
+                className="w-10 h-10 rounded-full cursor-pointer"
+                onClick={() => setDropdownOpen(!dropdownOpen)}
+              />
+
+              {dropdownOpen && (
+                <div className="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-lg z-50 p-4">
+                  <p className="text-sm font-semibold text-gray-700 mb-2">
+                    {user.displayName || "No Name"}
+                  </p>
+                  <p className="text-sm text-gray-500 mb-4">{user.email}</p>
+                  <button
+                    onClick={handleLogout}
+                    className="btn btn-sm w-full bg-red-500 text-white hover:bg-red-700"
+                  >
+                    Log Out
+                  </button>
+                </div>
+              )}
+            </div>
+          ) : (
+            <div className="flex items-center gap-2">
+              <NavLink to="/login">
+                <button className="btn bg-green-600 text-white hover:bg-green-700">
+                  Log In
+                </button>
+              </NavLink>
+
+              <NavLink to="/register">
+                <button className="btn bg-purple-600 text-white hover:bg-purple-700">
+                  Register
+                </button>
+              </NavLink>
+            </div>
+          )}
         </div>
       </div>
     </div>
