@@ -67,7 +67,7 @@ const PublicHabits = () => {
 
             <button
               className="btn mt-auto self-end"
-              onClick={handleAddToMyHabits}
+              onClick={() => handleAddToMyHabits(habit)}
             >
               Add to my habits
             </button>

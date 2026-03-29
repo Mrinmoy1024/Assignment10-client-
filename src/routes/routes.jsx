@@ -7,6 +7,7 @@ import Login from "../components/Login";
 import Register from "../components/Register";
 import PrivateRoute from "../components/PrivateRoute";
 import AddHabit from "../components/AddHabit";
+import MyHabits from "../components/MyHabits";
 
 export const router = createBrowserRouter([
   {
@@ -34,6 +35,14 @@ export const router = createBrowserRouter([
         element: (
           <PrivateRoute>
             <AddHabit></AddHabit>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/my-habits",
+        element: (
+          <PrivateRoute>
+            <MyHabits></MyHabits>
           </PrivateRoute>
         ),
       },
