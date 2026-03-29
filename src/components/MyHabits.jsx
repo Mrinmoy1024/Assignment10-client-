@@ -52,19 +52,43 @@ const MyHabits = () => {
 
   const handleMarkComplete = async (habit) => {
     try {
+      const today = new Date().toDateString();
+      const lastCompleted = habit.lastCompletedDate
+        ? new Date(habit.lastCompletedDate).toDateString()
+        : null;
+
+    
+      if (lastCompleted === today && habit.markComplete === "complete") {
+        toast.error("You've already marked this habit complete today!");
+        return;
+      }
+
+      const { _id, ...habitWithoutId } = habit;
+      const isCompleting = habit.markComplete !== "complete";
+
       const updatedHabit = {
-        ...habit,
-        currentStreak: (habit.currentStreak || 0) + 1,
+        ...habitWithoutId,
+        markComplete: isCompleting ? "complete" : "incomplete",
+        currentStreak: isCompleting
+          ? (habit.currentStreak || 0) + 1
+          : Math.max((habit.currentStreak || 0) - 1, 0),
+        lastCompletedDate: isCompleting ? new Date() : null,
       };
-      const res = await fetch(`http://localhost:3000/my-habits/${habit._id}`, {
-        method: "PUT",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify(updatedHabit),
-      });
+
+      const res = await fetch(
+        `http://localhost:3000/my-habits/${habit._id.toString()}`,
+        {
+          method: "PUT",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify(updatedHabit),
+        },
+      );
 
       const data = await res.json();
       if (data.modifiedCount > 0) {
-        toast.success("Habit marked complete!");
+        toast.success(
+          isCompleting ? "Habit marked complete!" : "Habit marked incomplete!",
+        );
         fetchHabits();
       } else {
         toast.error("Failed to update habit");
@@ -97,44 +121,81 @@ const MyHabits = () => {
             <tr className="bg-gray-700">
               <th className="border px-4 py-2">Title</th>
               <th className="border px-4 py-2">Category</th>
-              <th className="border px-4 py-2">Current Streak</th>
+              <th className="border px-4 py-2">Status</th>
               <th className="border px-4 py-2">Created Date</th>
+              <th className="border px-4 py-2">Current Streak</th>
               <th className="border px-4 py-2">Actions</th>
             </tr>
           </thead>
           <tbody>
-            {habits.map((habit) => (
-              <tr key={habit._id} className="bg-gray-800 hover:bg-gray-700">
-                <td className="border px-4 py-2">{habit.Title}</td>
-                <td className="border px-4 py-2">{habit.Category}</td>
-                <td className="border px-4 py-2">{habit.currentStreak || 0}</td>
-                <td className="border px-4 py-2">
-                  {new Date(habit.createdAt).toLocaleDateString()}
-                </td>
-                <td className="border px-4 py-2 space-x-2">
-                  <Link to="/update-habits">
-                    <button className="btn btn-sm bg-blue-500 hover:bg-blue-700">
-                      Update
+            {habits.map((habit) => {
+              const today = new Date().toDateString();
+              const lastCompleted = habit.lastCompletedDate
+                ? new Date(habit.lastCompletedDate).toDateString()
+                : null;
+              const alreadyCompletedToday =
+                lastCompleted === today && habit.markComplete === "complete";
+
+              return (
+                <tr key={habit._id} className="bg-gray-800 hover:bg-gray-700">
+                  <td className="border px-4 py-2">{habit.Title}</td>
+                  <td className="border px-4 py-2">{habit.Category}</td>
+                  <td className="border px-4 py-2">
+                    <span
+                      className={`px-2 py-1 rounded text-sm font-medium ${
+                        habit.markComplete === "complete"
+                          ? "bg-green-600 text-white"
+                          : "bg-yellow-600 text-white"
+                      }`}
+                    >
+                      {habit.markComplete === "complete"
+                        ? "Complete"
+                        : "Incomplete"}
+                    </span>
+                  </td>
+                  <td className="border px-4 py-2">
+                    {new Date(
+                      habit.addedAt || habit.createdAt,
+                    ).toLocaleDateString()}
+                  </td>
+                  <td className="border px-4 py-2">
+                    {habit.currentStreak || 0} 🔥
+                  </td>
+                  <td className="border px-4 py-2 space-x-2">
+                    <Link to={`/update-habits/${habit._id.toString()}`}>
+                      <button className="btn btn-sm bg-blue-500 hover:bg-blue-700">
+                        Update
+                      </button>
+                    </Link>
+                    <button
+                      className="btn btn-sm bg-red-500 hover:bg-red-700"
+                      onClick={() => handleDelete(habit._id.toString())}
+                    >
+                      Delete
                     </button>
-                  </Link>
-                  <button
-                    className="btn btn-sm bg-red-500 hover:bg-red-700"
-                    onClick={() => handleDelete(habit._id)}
-                  >
-                    Delete
-                  </button>
-                  <button
-                    className="btn btn-sm bg-green-500 hover:bg-green-700"
-                    onClick={() => handleMarkComplete(habit)}
-                  >
-                    Mark Complete
-                  </button>
-                </td>
-              </tr>
-            ))}
+                    <button
+                      className={`btn btn-sm ${
+                        alreadyCompletedToday
+                          ? "bg-gray-500 cursor-not-allowed opacity-50"
+                          : "bg-green-500 hover:bg-green-700"
+                      }`}
+                      onClick={() => handleMarkComplete(habit)}
+                      disabled={alreadyCompletedToday}
+                      title={
+                        alreadyCompletedToday ? "Already completed today" : ""
+                      }
+                    >
+                      {habit.markComplete === "complete"
+                        ? "Mark Incomplete"
+                        : "Mark Complete"}
+                    </button>
+                  </td>
+                </tr>
+              );
+            })}
             {habits.length === 0 && (
               <tr>
-                <td colSpan="5" className="text-center py-4 text-gray-400">
+                <td colSpan="6" className="text-center py-4 text-gray-400">
                   You have no habits yet.
                 </td>
               </tr>

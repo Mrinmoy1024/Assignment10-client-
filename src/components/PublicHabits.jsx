@@ -5,7 +5,6 @@ import { toast } from "react-toastify";
 
 const PublicHabits = () => {
   const [habits, setHabits] = useState([]);
-
   useEffect(() => {
     fetch("http://localhost:3000/habits")
       .then((res) => res.json())
@@ -14,15 +13,17 @@ const PublicHabits = () => {
   }, []);
 
   const { user } = useContext(AuthContext);
+
   const handleAddToMyHabits = async (habit) => {
     if (!user) {
       toast.error("Please login first");
       return;
     }
-
     try {
+      const { _id, ...habitWithoutId } = habit;
+
       const myHabit = {
-        ...habit,
+        ...habitWithoutId,
         userEmail: user.email,
         userName: user.displayName,
         addedAt: new Date(),
@@ -37,7 +38,6 @@ const PublicHabits = () => {
       });
 
       const data = await res.json();
-
       if (data.insertedId) {
         toast.success("Added to My Habits!");
       } else {
@@ -48,6 +48,7 @@ const PublicHabits = () => {
       toast.error("Something went wrong");
     }
   };
+
   return (
     <div>
       <div className="grid md:grid-cols-4 gap-6 p-6">
@@ -60,11 +61,9 @@ const PublicHabits = () => {
               src={habit.Image}
               className="w-full h-40 object-cover rounded"
             />
-
             <h2 className="text-xl font-bold mt-2">{habit.Title}</h2>
             <p className="text-gray-600">{habit.Description}</p>
             <p className="text-sm mt-1">Category: {habit.Category}</p>
-
             <button
               className="btn mt-auto self-end"
               onClick={() => handleAddToMyHabits(habit)}

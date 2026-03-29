@@ -41,6 +41,7 @@ const AddHabit = () => {
         Description,
         Category,
         reminderTime,
+
         Image: imageURL,
         userEmail: user?.email,
         userName: user?.displayName,
