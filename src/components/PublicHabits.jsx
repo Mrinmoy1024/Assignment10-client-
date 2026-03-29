@@ -10,7 +10,9 @@ const PublicHabits = () => {
   const { user } = useContext(AuthContext);
 
   useEffect(() => {
-    fetch("http://localhost:3000/habits")
+    fetch(
+      "https://habit-tracker-server-df4tjwqan-mtex1024-2836s-projects.vercel.app/habits",
+    )
       .then((res) => res.json())
       .then((data) => {
         setHabits(data);
@@ -35,11 +37,14 @@ const PublicHabits = () => {
         userName: user.displayName,
         addedAt: new Date(),
       };
-      const res = await fetch("http://localhost:3000/my-habits", {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify(myHabit),
-      });
+      const res = await fetch(
+        "https://habit-tracker-server-df4tjwqan-mtex1024-2836s-projects.vercel.app/my-habits",
+        {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify(myHabit),
+        },
+      );
       const data = await res.json();
       if (data.insertedId) {
         toast.success("Added to My Habits!");

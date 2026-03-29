@@ -48,13 +48,16 @@ const AddHabit = () => {
         createdAt: new Date(),
       };
 
-      const response = await fetch("http://localhost:3000/my-habits", {
-        method: "POST",
-        headers: {
-          "content-type": "application/json",
+      const response = await fetch(
+        "https://habit-tracker-server-df4tjwqan-mtex1024-2836s-projects.vercel.app/my-habits",
+        {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+          },
+          body: JSON.stringify(habitData),
         },
-        body: JSON.stringify(habitData),
-      });
+      );
 
       const result = await response.json();
 

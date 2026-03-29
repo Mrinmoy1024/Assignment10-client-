@@ -55,11 +55,14 @@ const Register = () => {
         createdAt: new Date(),
       };
 
-      await fetch("http://localhost:3000/users", {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify(userData),
-      });
+      await fetch(
+        "https://habit-tracker-server-df4tjwqan-mtex1024-2836s-projects.vercel.app/users",
+        {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify(userData),
+        },
+      );
 
       toast.success("User created successfully!", { id: "create-user" });
       navigate("/");
@@ -83,11 +86,14 @@ const Register = () => {
         createdAt: new Date(),
       };
 
-      await fetch("http://localhost:3000/users", {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify(userData),
-      });
+      await fetch(
+        "https://habit-tracker-server-df4tjwqan-mtex1024-2836s-projects.vercel.app/users",
+        {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify(userData),
+        },
+      );
 
       toast.success("User created successfully!", { id: "create-user" });
       navigate("/");

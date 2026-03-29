@@ -13,7 +13,9 @@ const HabitDetails = () => {
 
   const fetchHabit = async () => {
     try {
-      const res = await fetch(`http://localhost:3000/habits/${id}`);
+      const res = await fetch(
+        `https://habit-tracker-server-df4tjwqan-mtex1024-2836s-projects.vercel.app/habits/${id}`,
+      );
       const data = await res.json();
       setHabit(data);
     } catch (err) {
@@ -64,14 +66,17 @@ const HabitDetails = () => {
         completionHistory: updatedHistory,
       };
 
-      // Update UI instantly
+  
       setHabit({ ...habit, ...updatedHabit, _id: habit._id });
 
-      const res = await fetch(`http://localhost:3000/habits/${id}`, {
-        method: "PUT",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify(updatedHabit),
-      });
+      const res = await fetch(
+        `https://habit-tracker-server-df4tjwqan-mtex1024-2836s-projects.vercel.app/habits/${id}`,
+        {
+          method: "PUT",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify(updatedHabit),
+        },
+      );
 
       const data = await res.json();
       if (data.modifiedCount > 0) {

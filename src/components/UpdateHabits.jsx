@@ -24,7 +24,9 @@ const UpdateHabit = () => {
   useEffect(() => {
     const fetchHabit = async () => {
       try {
-        const res = await fetch(`http://localhost:3000/my-habits/${id}`);
+        const res = await fetch(
+          `https://habit-tracker-server-df4tjwqan-mtex1024-2836s-projects.vercel.app/my-habits/${id}`,
+        );
         const data = await res.json();
         setHabit(data);
       } catch (err) {
@@ -67,11 +69,14 @@ const UpdateHabit = () => {
         Image: imageURL,
       };
 
-      const res = await fetch(`http://localhost:3000/my-habits/${id}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(updatedHabit),
-      });
+      const res = await fetch(
+        `https://habit-tracker-server-df4tjwqan-mtex1024-2836s-projects.vercel.app/my-habits/${id}`,
+        {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(updatedHabit),
+        },
+      );
 
       const result = await res.json();
 

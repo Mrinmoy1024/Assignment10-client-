@@ -15,7 +15,7 @@ const MyHabits = () => {
     setLoading(true);
     try {
       const res = await fetch(
-        `http://localhost:3000/my-habits?email=${user.email}`,
+        `https://habit-tracker-server-df4tjwqan-mtex1024-2836s-projects.vercel.app/my-habits?email=${user.email}`,
       );
       const data = await res.json();
       setHabits(data);
@@ -45,9 +45,12 @@ const MyHabits = () => {
     if (!result.isConfirmed) return;
 
     try {
-      const res = await fetch(`http://localhost:3000/my-habits/${id}`, {
-        method: "DELETE",
-      });
+      const res = await fetch(
+        `https://habit-tracker-server-df4tjwqan-mtex1024-2836s-projects.vercel.app/my-habits/${id}`,
+        {
+          method: "DELETE",
+        },
+      );
 
       const data = await res.json();
       if (data.deletedCount > 0) {
@@ -92,7 +95,7 @@ const MyHabits = () => {
       };
 
       const res = await fetch(
-        `http://localhost:3000/my-habits/${habit._id.toString()}`,
+        `https://habit-tracker-server-df4tjwqan-mtex1024-2836s-projects.vercel.app/my-habits/${habit._id.toString()}`,
         {
           method: "PUT",
           headers: { "content-type": "application/json" },

@@ -11,7 +11,9 @@ const FeaturedHabits = () => {
   useEffect(() => {
     const fetchHabits = async () => {
       try {
-        const res = await fetch("http://localhost:3000/featured-habits");
+        const res = await fetch(
+          "https://habit-tracker-server-df4tjwqan-mtex1024-2836s-projects.vercel.app/featured-habits",
+        );
         const data = await res.json();
         setHabits(data);
       } catch (err) {
@@ -43,11 +45,14 @@ const FeaturedHabits = () => {
         userName: user.displayName,
         addedAt: new Date(),
       };
-      const res = await fetch("http://localhost:3000/my-habits", {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify(myHabit),
-      });
+      const res = await fetch(
+        "https://habit-tracker-server-df4tjwqan-mtex1024-2836s-projects.vercel.app/my-habits",
+        {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify(myHabit),
+        },
+      );
       const data = await res.json();
       if (data.insertedId) {
         toast.success("Added to My Habits!");
