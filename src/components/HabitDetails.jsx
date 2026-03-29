@@ -44,6 +44,18 @@ const HabitDetails = () => {
       const { _id, ...habitWithoutId } = habit;
       const isCompleting = habit.markComplete !== "complete";
 
+      // ✅ Build completionHistory — prevent duplicate same-day entry
+      const existingHistory = habit.completionHistory || [];
+      const todayISO = new Date().toISOString().split("T")[0]; // "2026-03-29"
+      const alreadyInHistory = existingHistory.some(
+        (entry) => new Date(entry).toISOString().split("T")[0] === todayISO,
+      );
+
+      const updatedHistory =
+        isCompleting && !alreadyInHistory
+          ? [...existingHistory, new Date()] // ✅ push today
+          : existingHistory; // ✅ no duplicate
+
       const updatedHabit = {
         ...habitWithoutId,
         markComplete: isCompleting ? "complete" : "incomplete",
@@ -51,7 +63,11 @@ const HabitDetails = () => {
           ? (habit.currentStreak || 0) + 1
           : Math.max((habit.currentStreak || 0) - 1, 0),
         lastCompletedDate: isCompleting ? new Date() : null,
+        completionHistory: updatedHistory, // ✅ save to DB
       };
+
+      // ✅ Update UI instantly before waiting for server
+      setHabit({ ...habit, ...updatedHabit, _id: habit._id });
 
       const res = await fetch(`http://localhost:3000/habits/${id}`, {
         method: "PUT",
@@ -64,13 +80,14 @@ const HabitDetails = () => {
         toast.success(
           isCompleting ? "Habit marked complete!" : "Habit marked incomplete!",
         );
-        fetchHabit();
       } else {
         toast.error("Failed to update habit");
+        fetchHabit(); // revert UI if server failed
       }
     } catch (err) {
       console.error(err);
       toast.error("Something went wrong");
+      fetchHabit(); // revert UI on error
     }
   };
 

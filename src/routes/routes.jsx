@@ -10,6 +10,7 @@ import AddHabit from "../components/AddHabit";
 import MyHabits from "../components/MyHabits";
 import UpdateHabits from "../components/UpdateHabits";
 import HabitDetails from "../components/HabitDetails";
+import NotFound from "../components/NotFound";
 
 export const router = createBrowserRouter([
   {
@@ -64,6 +65,10 @@ export const router = createBrowserRouter([
             <HabitDetails />
           </PrivateRoute>
         ),
+      },
+      {
+        path: "*",
+        element: <NotFound></NotFound>,
       },
     ],
   },
