@@ -9,6 +9,7 @@ import PrivateRoute from "../components/PrivateRoute";
 import AddHabit from "../components/AddHabit";
 import MyHabits from "../components/MyHabits";
 import UpdateHabits from "../components/UpdateHabits";
+import HabitDetails from "../components/HabitDetails";
 
 export const router = createBrowserRouter([
   {
@@ -47,11 +48,20 @@ export const router = createBrowserRouter([
           </PrivateRoute>
         ),
       },
+
       {
         path: "/update-habits/:id",
         element: (
           <PrivateRoute>
             <UpdateHabits></UpdateHabits>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/habit-details/:id",
+        element: (
+          <PrivateRoute>
+            <HabitDetails />
           </PrivateRoute>
         ),
       },

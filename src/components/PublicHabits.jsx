@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { toast } from "react-toastify";
+import { Link } from "react-router";
 
 const PublicHabits = () => {
   const [habits, setHabits] = useState([]);
@@ -64,13 +65,19 @@ const PublicHabits = () => {
             <h2 className="text-xl font-bold mt-2">{habit.Title}</h2>
             <p className="text-gray-600">{habit.Description}</p>
             <p className="text-sm mt-1">Category: {habit.Category}</p>
-            <button
-              className="btn mt-auto self-end"
-              onClick={() => handleAddToMyHabits(habit)}
-            >
-              Add to my habits
-            </button>
-            <button className="btn mt-auto self-end">Details</button>
+            <div className="flex justify-end gap-2 mt-auto">
+              <button
+                className="btn"
+                onClick={() => handleAddToMyHabits(habit)}
+              >
+                Add to my habits
+              </button>
+              <Link to={`/habit-details/${habit._id}`}>
+                <button className="btn bg-indigo-500 hover:bg-indigo-700 text-white">
+                  Details
+                </button>
+              </Link>
+            </div>
           </div>
         ))}
       </div>
