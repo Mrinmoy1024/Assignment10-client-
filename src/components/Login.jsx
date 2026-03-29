@@ -68,14 +68,17 @@ const Login = () => {
             </a>
           </div>
 
-          <button type="submit" className="btn w-full mt-4 py-2 rounded-full ">
+          <button
+            type="submit"
+            className="btn w-full bg-indigo-700 mt-4 py-2 rounded-full "
+          >
             Login
           </button>
         </form>
 
         <button
           onClick={handleGoogleSignIn}
-          className="btn w-full mt-4 py-2 rounded-full border border-gray-300 font-semibold hover:bg-gray-50 transition"
+          className="btn w-full mt-4 py-2 rounded-full  font-semibold bg-indigo-700 transition"
         >
           <img src={googleIcon} className="w-5" /> Login with Google
         </button>
@@ -84,7 +87,7 @@ const Login = () => {
           New to our website?{" "}
           <Link
             to="/register"
-            className="text-indigo-500 hover:text-indigo-700"
+            className="text-indigo-500  hover:text-indigo-700"
           >
             Register
           </Link>
