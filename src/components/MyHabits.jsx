@@ -2,6 +2,8 @@ import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { toast } from "react-toastify";
 import { Link } from "react-router";
+import Swal from "sweetalert2";
+import { Tooltip } from "react-tooltip";
 
 const MyHabits = () => {
   const { user } = useContext(AuthContext);
@@ -30,7 +32,17 @@ const MyHabits = () => {
   }, [user]);
 
   const handleDelete = async (id) => {
-    if (!window.confirm("Are you sure you want to delete this habit?")) return;
+    const result = await Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#e53e3e",
+      cancelButtonColor: "#4a5568",
+      confirmButtonText: "Yes, delete it!",
+    });
+
+    if (!result.isConfirmed) return;
 
     try {
       const res = await fetch(`http://localhost:3000/my-habits/${id}`, {
@@ -39,7 +51,12 @@ const MyHabits = () => {
 
       const data = await res.json();
       if (data.deletedCount > 0) {
-        toast.success("Habit deleted");
+        Swal.fire({
+          title: "Deleted!",
+          text: "Your habit has been deleted.",
+          icon: "success",
+          confirmButtonColor: "#48bb78",
+        });
         fetchHabits();
       } else {
         toast.error("Failed to delete");
@@ -57,7 +74,6 @@ const MyHabits = () => {
         ? new Date(habit.lastCompletedDate).toDateString()
         : null;
 
-    
       if (lastCompleted === today && habit.markComplete === "complete") {
         toast.error("You've already marked this habit complete today!");
         return;
@@ -108,7 +124,11 @@ const MyHabits = () => {
   }
 
   if (loading) {
-    return <p className="text-center text-white mt-10">Loading habits...</p>;
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <span className="loading loading-spinner loading-lg"></span>
+      </div>
+    );
   }
 
   return (
@@ -122,8 +142,8 @@ const MyHabits = () => {
               <th className="border px-4 py-2">Title</th>
               <th className="border px-4 py-2">Category</th>
               <th className="border px-4 py-2">Status</th>
-              <th className="border px-4 py-2">Created Date</th>
               <th className="border px-4 py-2">Current Streak</th>
+              <th className="border px-4 py-2">Created Date</th>
               <th className="border px-4 py-2">Actions</th>
             </tr>
           </thead>
@@ -138,7 +158,13 @@ const MyHabits = () => {
 
               return (
                 <tr key={habit._id} className="bg-gray-800 hover:bg-gray-700">
-                  <td className="border px-4 py-2">{habit.Title}</td>
+                  <td
+                    className="border px-4 py-2"
+                    data-tooltip-id="habit-tooltip"
+                    data-tooltip-content={`${habit.Description} | Reminder: ${habit.reminderTime || "Not set"}`}
+                  >
+                    {habit.Title}
+                  </td>
                   <td className="border px-4 py-2">{habit.Category}</td>
                   <td className="border px-4 py-2">
                     <span
@@ -153,13 +179,13 @@ const MyHabits = () => {
                         : "Incomplete"}
                     </span>
                   </td>
+                  <td className="border px-4 py-2 text-center">
+                    {habit.currentStreak || 0} 🔥
+                  </td>
                   <td className="border px-4 py-2">
                     {new Date(
                       habit.addedAt || habit.createdAt,
                     ).toLocaleDateString()}
-                  </td>
-                  <td className="border px-4 py-2">
-                    {habit.currentStreak || 0} 🔥
                   </td>
                   <td className="border px-4 py-2 space-x-2">
                     <Link to={`/update-habits/${habit._id.toString()}`}>
@@ -203,6 +229,11 @@ const MyHabits = () => {
           </tbody>
         </table>
       </div>
+      <Tooltip
+        id="habit-tooltip"
+        place="top"
+        style={{ maxWidth: "250px", fontSize: "12px" }}
+      />
     </div>
   );
 };

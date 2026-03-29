@@ -15,7 +15,6 @@ const HabitDetails = () => {
     try {
       const res = await fetch(`http://localhost:3000/habits/${id}`);
       const data = await res.json();
-      console.log("Habit data:", data);
       setHabit(data);
     } catch (err) {
       console.error(err);
@@ -44,17 +43,16 @@ const HabitDetails = () => {
       const { _id, ...habitWithoutId } = habit;
       const isCompleting = habit.markComplete !== "complete";
 
-      // ✅ Build completionHistory — prevent duplicate same-day entry
       const existingHistory = habit.completionHistory || [];
-      const todayISO = new Date().toISOString().split("T")[0]; // "2026-03-29"
+      const todayISO = new Date().toISOString().split("T")[0];
       const alreadyInHistory = existingHistory.some(
         (entry) => new Date(entry).toISOString().split("T")[0] === todayISO,
       );
 
       const updatedHistory =
         isCompleting && !alreadyInHistory
-          ? [...existingHistory, new Date()] // ✅ push today
-          : existingHistory; // ✅ no duplicate
+          ? [...existingHistory, new Date()]
+          : existingHistory;
 
       const updatedHabit = {
         ...habitWithoutId,
@@ -63,10 +61,10 @@ const HabitDetails = () => {
           ? (habit.currentStreak || 0) + 1
           : Math.max((habit.currentStreak || 0) - 1, 0),
         lastCompletedDate: isCompleting ? new Date() : null,
-        completionHistory: updatedHistory, // ✅ save to DB
+        completionHistory: updatedHistory,
       };
 
-      // ✅ Update UI instantly before waiting for server
+      // Update UI instantly
       setHabit({ ...habit, ...updatedHabit, _id: habit._id });
 
       const res = await fetch(`http://localhost:3000/habits/${id}`, {
@@ -82,12 +80,12 @@ const HabitDetails = () => {
         );
       } else {
         toast.error("Failed to update habit");
-        fetchHabit(); // revert UI if server failed
+        fetchHabit();
       }
     } catch (err) {
       console.error(err);
       toast.error("Something went wrong");
-      fetchHabit(); // revert UI on error
+      fetchHabit();
     }
   };
 

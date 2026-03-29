@@ -27,10 +27,10 @@ const UpdateHabit = () => {
         const res = await fetch(`http://localhost:3000/my-habits/${id}`);
         const data = await res.json();
         setHabit(data);
-        setLoading(false);
       } catch (err) {
         console.error(err);
         toast.error("Failed to load habit");
+      } finally {
         setLoading(false);
       }
     };
@@ -90,7 +90,11 @@ const UpdateHabit = () => {
   };
 
   if (loading) {
-    return <div className="text-white text-center py-10">Loading...</div>;
+    return (
+      <div className="flex justify-center items-center min-h-screen bg-[#1e1b4b]">
+        <span className="loading loading-spinner loading-lg"></span>
+      </div>
+    );
   }
 
   return (
@@ -161,13 +165,13 @@ const UpdateHabit = () => {
             type="text"
             value={habit.userEmail}
             readOnly
-            className="input w-full text-gray-600"
+            className="input w-full text-gray-400"
           />
           <input
             type="text"
             value={habit.userName}
             readOnly
-            className="input w-full text-gray-600"
+            className="input w-full text-gray-400"
           />
 
           <button
@@ -175,7 +179,14 @@ const UpdateHabit = () => {
             className="btn w-full bg-green-500 hover:bg-green-700"
             disabled={updating}
           >
-            {updating ? "Updating..." : "Update Habit"}
+            {updating ? (
+              <span className="flex items-center justify-center gap-2">
+                <span className="loading loading-spinner loading-sm"></span>
+                Updating...
+              </span>
+            ) : (
+              "Update Habit"
+            )}
           </button>
         </form>
       </div>

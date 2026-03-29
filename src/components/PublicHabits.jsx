@@ -6,14 +6,21 @@ import { Link } from "react-router";
 
 const PublicHabits = () => {
   const [habits, setHabits] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const { user } = useContext(AuthContext);
+
   useEffect(() => {
     fetch("http://localhost:3000/habits")
       .then((res) => res.json())
-      .then((data) => setHabits(data))
-      .catch((err) => console.error(err));
+      .then((data) => {
+        setHabits(data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error(err);
+        setLoading(false);
+      });
   }, []);
-
-  const { user } = useContext(AuthContext);
 
   const handleAddToMyHabits = async (habit) => {
     if (!user) {
@@ -22,22 +29,17 @@ const PublicHabits = () => {
     }
     try {
       const { _id, ...habitWithoutId } = habit;
-
       const myHabit = {
         ...habitWithoutId,
         userEmail: user.email,
         userName: user.displayName,
         addedAt: new Date(),
       };
-
       const res = await fetch("http://localhost:3000/my-habits", {
         method: "POST",
-        headers: {
-          "content-type": "application/json",
-        },
+        headers: { "content-type": "application/json" },
         body: JSON.stringify(myHabit),
       });
-
       const data = await res.json();
       if (data.insertedId) {
         toast.success("Added to My Habits!");
@@ -49,6 +51,14 @@ const PublicHabits = () => {
       toast.error("Something went wrong");
     }
   };
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <span className="loading loading-spinner loading-lg"></span>
+      </div>
+    );
+  }
 
   return (
     <div>
