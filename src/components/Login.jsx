@@ -2,6 +2,7 @@ import { Link, useLocation, useNavigate } from "react-router";
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 import googleIcon from "../assets/google.png";
+import { toast } from "react-toastify";
 const Login = () => {
   const { signInUser, signInWithGoogle } = useContext(AuthContext);
   const location = useLocation();
@@ -16,6 +17,7 @@ const Login = () => {
       .then((result) => {
         event.target.reset();
         navigate(location.state?.from || "/");
+        toast.success("Logged in successfully!", { id: "create-user" });
       })
       .catch((error) => {
         console.log(error);
@@ -26,6 +28,7 @@ const Login = () => {
     signInWithGoogle()
       .then((result) => {
         navigate(location.state?.from || "/");
+        toast.success("Logged in successfully!", { id: "create-user" });
       })
       .catch((error) => {
         console.log(error);
