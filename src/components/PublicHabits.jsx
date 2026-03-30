@@ -10,9 +10,7 @@ const PublicHabits = () => {
   const { user } = useContext(AuthContext);
 
   useEffect(() => {
-    fetch(
-      "https://habit-tracker-server-df4tjwqan-mtex1024-2836s-projects.vercel.app/habits",
-    )
+    fetch("https://habit-tracker-server-taupe.vercel.app/habits")
       .then((res) => res.json())
       .then((data) => {
         setHabits(data);
@@ -38,7 +36,7 @@ const PublicHabits = () => {
         addedAt: new Date(),
       };
       const res = await fetch(
-        "https://habit-tracker-server-df4tjwqan-mtex1024-2836s-projects.vercel.app/my-habits",
+        "https://habit-tracker-server-taupe.vercel.app/my-habits",
         {
           method: "POST",
           headers: { "content-type": "application/json" },

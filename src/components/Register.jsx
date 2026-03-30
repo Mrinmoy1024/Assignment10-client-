@@ -6,24 +6,21 @@ import googleLogo from "../assets/google.png";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const Register = () => {
-  const { loading, createUser, updateUserProfile, signInWithGoogle } =
+  const { createUser, updateUserProfile, signInWithGoogle } =
     useContext(AuthContext);
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
+  const [registering, setRegistering] = useState(false);
 
   const togglePasswordVisibility = () => setShowPassword((prev) => !prev);
 
   const validatePassword = (password) => {
-    const hasMinLength = password.length >= 6;
-    const hasUppercase = /[A-Z]/.test(password);
-    const hasLowercase = /[a-z]/.test(password);
-
-    if (!hasMinLength) return "Password must be at least 6 characters long.";
-    if (!hasUppercase)
+    if (password.length < 6)
+      return "Password must be at least 6 characters long.";
+    if (!/[A-Z]/.test(password))
       return "Password must have at least one uppercase letter.";
-    if (!hasLowercase)
+    if (!/[a-z]/.test(password))
       return "Password must have at least one lowercase letter.";
-
     return null;
   };
 
@@ -36,44 +33,42 @@ const Register = () => {
     const password = event.target.password.value;
 
     const validationError = validatePassword(password);
-
     if (validationError) {
       toast.error(validationError);
       return;
     }
 
     try {
-      toast.loading("Creating user...", { id: "create-user" });
+      setRegistering(true);
 
       await createUser(email, password);
       await updateUserProfile(displayName, photoURL);
 
       const userData = {
         name: displayName,
-        email: email,
-        photoURL: photoURL,
+        email,
+        photoURL,
         createdAt: new Date(),
       };
 
-      await fetch(
-        "https://habit-tracker-server-df4tjwqan-mtex1024-2836s-projects.vercel.app/users",
-        {
-          method: "POST",
-          headers: { "content-type": "application/json" },
-          body: JSON.stringify(userData),
-        },
-      );
-
-      toast.success("User created successfully!", { id: "create-user" });
-      navigate("/");
+      await fetch("https://habit-tracker-server-taupe.vercel.app/users", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(userData),
+      });
+      toast.success("Account created successfully!");
+      setRegistering(false);
     } catch (error) {
       console.log(error);
       toast.error(error.message, { id: "create-user" });
+    } finally {
+      navigate("/");
     }
   };
 
   const handleGoogleSignIn = async () => {
     try {
+      setRegistering(true);
       toast.loading("Signing in with Google...", { id: "create-user" });
 
       const result = await signInWithGoogle();
@@ -86,24 +81,23 @@ const Register = () => {
         createdAt: new Date(),
       };
 
-      await fetch(
-        "https://habit-tracker-server-df4tjwqan-mtex1024-2836s-projects.vercel.app/users",
-        {
-          method: "POST",
-          headers: { "content-type": "application/json" },
-          body: JSON.stringify(userData),
-        },
-      );
+      await fetch("https://habit-tracker-server-taupe.vercel.app/users", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(userData),
+      });
 
       toast.success("User created successfully!", { id: "create-user" });
-      navigate("/");
+      setRegistering(false);
     } catch (error) {
       console.log(error);
       toast.error(error.message, { id: "create-user" });
+    } finally {
+      navigate("/");
     }
   };
 
-  if (loading) {
+  if (registering) {
     return (
       <div className="flex justify-center items-center min-h-screen">
         <span className="loading loading-spinner loading-lg"></span>

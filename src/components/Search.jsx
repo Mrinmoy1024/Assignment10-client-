@@ -21,9 +21,7 @@ const Search = () => {
   const [selectedCategory, setSelectedCategory] = useState("All");
 
   useEffect(() => {
-    fetch(
-      "https://habit-tracker-server-df4tjwqan-mtex1024-2836s-projects.vercel.app/habits",
-    )
+    fetch("https://habit-tracker-server-taupe.vercel.app/habits")
       .then((res) => res.json())
       .then((data) => {
         setHabits(data);

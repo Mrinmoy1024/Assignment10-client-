@@ -12,7 +12,7 @@ const FeaturedHabits = () => {
     const fetchHabits = async () => {
       try {
         const res = await fetch(
-          "https://habit-tracker-server-df4tjwqan-mtex1024-2836s-projects.vercel.app/featured-habits",
+          "https://habit-tracker-server-taupe.vercel.app/featured-habits",
         );
         const data = await res.json();
         setHabits(data);
@@ -46,7 +46,7 @@ const FeaturedHabits = () => {
         addedAt: new Date(),
       };
       const res = await fetch(
-        "https://habit-tracker-server-df4tjwqan-mtex1024-2836s-projects.vercel.app/my-habits",
+        "https://habit-tracker-server-taupe.vercel.app/my-habits",
         {
           method: "POST",
           headers: { "content-type": "application/json" },

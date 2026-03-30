@@ -14,7 +14,7 @@ const HabitDetails = () => {
   const fetchHabit = async () => {
     try {
       const res = await fetch(
-        `https://habit-tracker-server-df4tjwqan-mtex1024-2836s-projects.vercel.app/habits/${id}`,
+        `https://habit-tracker-server-taupe.vercel.app/habits/${id}`,
       );
       const data = await res.json();
       setHabit(data);
@@ -66,11 +66,10 @@ const HabitDetails = () => {
         completionHistory: updatedHistory,
       };
 
-  
       setHabit({ ...habit, ...updatedHabit, _id: habit._id });
 
       const res = await fetch(
-        `https://habit-tracker-server-df4tjwqan-mtex1024-2836s-projects.vercel.app/habits/${id}`,
+        `https://habit-tracker-server-taupe.vercel.app/habits/${id}`,
         {
           method: "PUT",
           headers: { "content-type": "application/json" },
