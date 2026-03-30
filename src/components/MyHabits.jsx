@@ -202,6 +202,11 @@ const MyHabits = () => {
                     >
                       Delete
                     </button>
+                    <Link to={`/my-habit-details/${habit._id}`}>
+                      <button className="btn btn-sm bg-indigo-500 hover:bg-indigo-700 text-white">
+                        Details
+                      </button>
+                    </Link>
                     <button
                       className={`btn btn-sm ${
                         alreadyCompletedToday

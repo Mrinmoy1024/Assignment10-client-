@@ -82,7 +82,7 @@ const UpdateHabit = () => {
 
       if (result.modifiedCount > 0) {
         toast.success("Habit updated successfully!");
-        navigate("/my-habits");
+        navigate("/habits");
       } else {
         toast.error("No changes made or update failed");
       }

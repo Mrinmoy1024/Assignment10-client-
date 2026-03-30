@@ -16,7 +16,7 @@ const AddHabit = () => {
     const Category = form.Category.value;
     const reminderTime = form.time.value;
     const imageFile = form.Image.files[0];
-
+    const date = form.date.value;
     let imageURL = "";
 
     try {
@@ -41,7 +41,7 @@ const AddHabit = () => {
         Description,
         Category,
         reminderTime,
-
+        date,
         Image: imageURL,
         userEmail: user?.email,
         userName: user?.displayName,
@@ -49,7 +49,7 @@ const AddHabit = () => {
       };
 
       const response = await fetch(
-        "https://habit-tracker-server-taupe.vercel.app/my-habits",
+        "https://habit-tracker-server-taupe.vercel.app/habits",
         {
           method: "POST",
           headers: {

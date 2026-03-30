@@ -3,7 +3,7 @@ import { useParams, useNavigate } from "react-router";
 import { AuthContext } from "../context/AuthContext";
 import { toast } from "react-toastify";
 
-const HabitDetails = () => {
+const MyHabitDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { user } = useContext(AuthContext);
@@ -14,7 +14,7 @@ const HabitDetails = () => {
   const fetchHabit = async () => {
     try {
       const res = await fetch(
-        `https://habit-tracker-server-taupe.vercel.app/habits/${id}`,
+        `https://habit-tracker-server-taupe.vercel.app/my-habits/${id}`,
       );
       const data = await res.json();
       setHabit(data);
@@ -69,7 +69,7 @@ const HabitDetails = () => {
       setHabit({ ...habit, ...updatedHabit, _id: habit._id });
 
       const res = await fetch(
-        `https://habit-tracker-server-taupe.vercel.app/habits/${id}`,
+        `https://habit-tracker-server-taupe.vercel.app/my-habits/${id}`,
         {
           method: "PUT",
           headers: { "content-type": "application/json" },
@@ -265,4 +265,4 @@ const HabitDetails = () => {
   );
 };
 
-export default HabitDetails;
+export default MyHabitDetails;
