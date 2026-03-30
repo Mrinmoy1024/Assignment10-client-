@@ -49,7 +49,7 @@ const AddHabit = () => {
       };
 
       const response = await fetch(
-        "https://habit-tracker-server-taupe.vercel.app/habits",
+        "https://habit-tracker-server-taupe.vercel.app/my-habits",
         {
           method: "POST",
           headers: {
