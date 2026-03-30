@@ -69,7 +69,6 @@ const Register = () => {
   const handleGoogleSignIn = async () => {
     try {
       setRegistering(true);
-      toast.loading("Signing in with Google...", { id: "create-user" });
 
       const result = await signInWithGoogle();
       const user = result.user;
